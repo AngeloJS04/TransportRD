@@ -9,19 +9,13 @@ import { v4 as uuidv4 } from 'uuid';
 import ModalHome from "../../components/app/modal/modal";
 
 
-
-
-
-
-
-const imagenes = [
+const images = [
     "https://revistaconstruir.com/wp-content/uploads/2021/01/metro-5ff4b2751b81c.jpg",
     "https://omsa.gob.do/media/k2/items/cache/b48f2c03bbd159814922841bfb3fe7d7_XL.jpg",
     "https://diariolibre.blob.core.windows.net.optimalcdn.com/images/binrepository/telerico-de-santo-domingo_11230891_20190207162543.jpg",
     "https://i.ytimg.com/vi/dh4QGeay2Kc/maxresdefault.jpg",
 
 ];
-
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height
@@ -36,7 +30,7 @@ function BackDrop({ scrollX }: any) {
 
     return (
         <View style={[{ height: ALTURA_BACKDROP, width, position: "absolute", top: 0 }]}>
-            {imagenes.map((imagen, index) => {
+            {images.map((imagen, index) => {
                 const inputRange = [
                     (index - 1) * CONTANER_WIDTH,
                     index * CONTANER_WIDTH,
@@ -72,7 +66,6 @@ function BackDrop({ scrollX }: any) {
         </View>
     )
 }
-
 
 const CardScreen = () => {
 
@@ -122,8 +115,6 @@ const CardScreen = () => {
                         )
                     }
                 </View>
-
-
 
                 <Animated.FlatList
                     onScroll={Animated.event(
@@ -198,7 +189,6 @@ const CardScreen = () => {
 }
 
 export const styles = StyleSheet.create({
-
 
     container: {
         justifyContent: 'center',
