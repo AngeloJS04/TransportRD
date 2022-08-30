@@ -40,8 +40,6 @@ export function LoginScreen() {
     const [isCreate, SetIsCreate] = useState(false)
     const debounceRef = useRef<NodeJS.Timeout>()
 
-
-
     const dispatch = useDispatch();
 
     const [identification, setIdentification] = useState<identificationU>(initialState)
@@ -74,8 +72,6 @@ export function LoginScreen() {
             .then((userCredential) => {
                 console.log('Account Created')
                 const user = userCredential.user;
-
-
             })
             .catch(err => { console.log(err) })
 
@@ -93,9 +89,6 @@ export function LoginScreen() {
                 // console.log(user)
                 dispatch(setMe({ me: { email: user.email, uid: user.uid } }))
                 dispatch(setSignIn({ SignIn: true }))
-
-                // navigation.navigate('Home', { dataUser })
-
             })
             .catch((err) => {
                 console.log(err)

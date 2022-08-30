@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { v4 as uuidv4 } from 'uuid';
 import ModalHome from "../../components/app/modal/modal";
+import AddCard from "../../components/screens/card/AddCard";
 
 
 const images = [
@@ -22,10 +23,10 @@ const height = Dimensions.get("window").height
 
 const CONTANER_WIDTH = width * 0.8
 const SIDE_SPACE = (width - CONTANER_WIDTH) / 2.2;
+const ALTURA_BACKDROP = height * 0.6;
 const SPACE = 7
-const ALTURA_BACKDROP = height * 0.5;
 
-
+// console.log(uuidv4())
 function BackDrop({ scrollX }: any) {
 
     return (
@@ -44,7 +45,7 @@ function BackDrop({ scrollX }: any) {
                 return (
                     <Animated.Image
                         key={index + 1}
-                        blurRadius={2}
+                        blurRadius={3}
                         source={{ uri: imagen }}
                         style={[
                             { width: width, height: ALTURA_BACKDROP, opacity },
@@ -73,10 +74,10 @@ const CardScreen = () => {
     const [showModalAdd, setShowModalAdd] = useState(false)
 
     const Cards: any[] = [
-        { amount: 120, code: (Math.random() * 10), status: true, uid: me.uid },
-        { amount: 0, code: (Math.random() * 10), status: false, uid: me.uid },
-        { amount: 130, code: (Math.random() * 10), status: true, uid: me.uid },
-        { amount: 360, code: (Math.random() * 10), status: true, uid: me.uid }
+        { amount: 120, code: '123', status: true, uid: me.uid },
+        { amount: 0, code: '1231', status: false, uid: me.uid },
+        { amount: 130, code: '134', status: true, uid: me.uid },
+        { amount: 360, code: '13234', status: true, uid: me.uid }
     ]
 
     const scrollX = React.useRef(new Animated.Value(0)).current;
@@ -90,30 +91,10 @@ const CardScreen = () => {
                 <BackDrop scrollX={scrollX} />
 
                 <View style={{ justifyContent: 'flex-end', alignContent: 'flex-end', alignItems: 'flex-end', marginLeft: 230 }}>
-                    <Button title="Recargar tarjeta" buttonStyle={styles.appCard}
-                        onPress={() => setShowModalAdd(true)}
-                    />
 
-                    {
-                        showModalAdd && (
-                            <ModalHome>
-                                <View>
-                                    <Text style={{ fontSize: 22, fontStyle: 'italic', marginBottom: 20, fontWeight: 'bold' }}>Recargar  tarjeta</Text>
-                                    <Text style={{ fontSize: 15, color: '#000', fontWeight: 'bold', marginLeft: 18 }}>Monto</Text>
-                                    <TextInput
-                                        style={styles.input}
-                                        keyboardType='numeric'
-                                        placeholder="Ingresa un monto"
-                                    // onChangeText={onChangeText}
-                                    // value={text}
-                                    />
-                                    <Text style={{ fontSize: 12, color: '#000', fontWeight: 'bold', marginLeft: 18 }}>RD$20 = 1 Viaje</Text>
-                                    <Button title={'Recargar'} buttonStyle={{ backgroundColor: '#3E8500', borderRadius: 30 }} onPress={() => setShowModalAdd(false)}></Button>
+                    {!showModalAdd && <Button title="Añadir tarjeta" buttonStyle={styles.appCard} onPress={() => setShowModalAdd(true)} />}
+                    {showModalAdd && (<AddCard setShowModalAdd={setShowModalAdd} />)}
 
-                                </View>
-                            </ModalHome>
-                        )
-                    }
                 </View>
 
                 <Animated.FlatList
@@ -128,7 +109,7 @@ const CardScreen = () => {
                     decelerationRate={0}
                     snapToInterval={CONTANER_WIDTH}
                     scrollEventThrottle={16}
-                    keyExtractor={(item) => item}
+                    keyExtractor={(item) => item.code}
                     renderItem={({ item, index }) => {
                         const inputRange = [
                             (index - 1) * CONTANER_WIDTH,
