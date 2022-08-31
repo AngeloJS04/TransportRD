@@ -1,13 +1,11 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Animated, Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, View, Text, Alert, TextInput } from 'react-native';
-import { Button, Card, Icon } from "react-native-elements";
+import { Animated, Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Button, ButtonGroup, Card } from "react-native-elements";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
-import { v4 as uuidv4 } from 'uuid';
-import ModalHome from "../../components/app/modal/modal";
 import AddCard from "../../components/screens/card/AddCard";
+import { RootState } from "../../redux/store/store";
 
 
 const images = [
@@ -26,7 +24,7 @@ const SIDE_SPACE = (width - CONTANER_WIDTH) / 2.2;
 const ALTURA_BACKDROP = height * 0.6;
 const SPACE = 7
 
-// console.log(uuidv4())
+
 function BackDrop({ scrollX }: any) {
 
     return (
@@ -91,10 +89,8 @@ const CardScreen = () => {
                 <BackDrop scrollX={scrollX} />
 
                 <View style={{ justifyContent: 'flex-end', alignContent: 'flex-end', alignItems: 'flex-end', marginLeft: 230 }}>
-
                     {!showModalAdd && <Button title="Añadir tarjeta" buttonStyle={styles.appCard} onPress={() => setShowModalAdd(true)} />}
                     {showModalAdd && (<AddCard setShowModalAdd={setShowModalAdd} />)}
-
                 </View>
 
                 <Animated.FlatList
@@ -138,25 +134,25 @@ const CardScreen = () => {
 
 
                                     <Image source={require("../../../assets/img/card.jpg")} style={styles.posterImage} />
-
                                 </Animated.View>
-                                <View style={[styles.container, { marginTop: 40, marginLeft: 50, marginRight: 30 }]}>
+                                <View style={[styles.container, { marginTop: 10, marginLeft: 50, marginRight: 30 }]}>
+
+                                    <Button title={"Recargar"} buttonStyle={{ borderRadius: 50 }} />
+
                                     <Text style={{ fontSize: 24, marginVertical: 30, fontWeight: 'bold', fontStyle: 'italic' }} >Informacion de tarjeta</Text>
+
                                     <Text style={{ fontSize: 18 }}>SALDO DISPONIBLE:</Text>
 
                                     <Card containerStyle={{ borderRadius: 20, alignItems: 'center', backgroundColor: item.amount > 0 ? '#3E850099' : '#FF030390' }}>
                                         <Text style={{ fontSize: 22, fontWeight: 'bold', height: 30, color: '#fff' }}>{item.amount}</Text>
                                     </Card>
-
                                     <Text style={{ marginVertical: 10 }}>STATUS :
                                         <Text style={{ color: item.status ? '#3E850099' : '#FF030390' }}>{item.status ? 'ACTIVA' : 'INACTIVA'}</Text>
                                     </Text>
                                     <Text style={{ marginVertical: 10, fontSize: 11 }}>ID TARJETA :
                                         {item.code}
                                     </Text>
-
                                 </View>
-
                             </View>
                         )
                     }}
