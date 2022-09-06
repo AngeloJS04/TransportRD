@@ -77,21 +77,24 @@ const RechargeCard = ({ cardCode, setRechargeModal, RechargeModal }: RechargeI) 
                             <Card data={data} icon={icon?.icon} back={backView} />
                         </Animated.View>
 
-                        <Text style={{ marginLeft: 10 }}>Monto: (RD$20 = 1 VIAJE)</Text>
+                        <Text style={{ marginLeft: 0 }}>Monto: (RD$20 = 1 VIAJE)</Text>
                         <Input
                             placeholder='Monto'
                             value={feed}
-                            type='credit-card'
-                            mask
+                            keyboardType="numeric"
+                            maxLength={3}
                             onChangeText={(text) => { setFeed(text) }}
-                            icon={false}
-                        // keyboardType='numeric'
-                        // style={styles.input}
-                        // maxLength={3}
-                        // value={cardCode.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim()}
+                            icon={<Icon
+                                type='material-community'
+                                name={'cash-multiple'}
+                                size={22}
+                                color={'#ccc'}
+                                tvParallaxProperties={undefined} />
+                            }
                         />
+
                         <Input
-                            placeholder='Nome do titular'
+                            placeholder='Nombre del titular'
                             value={data.name}
                             onChangeText={(text) => {
                                 setData({ ...data, name: text })
@@ -108,7 +111,7 @@ const RechargeCard = ({ cardCode, setRechargeModal, RechargeModal }: RechargeI) 
                         />
 
                         <Input
-                            placeholder='Número do cartão'
+                            placeholder='Número de cuenta'
                             value={data.number}
                             type='credit-card'
                             mask
@@ -117,7 +120,13 @@ const RechargeCard = ({ cardCode, setRechargeModal, RechargeModal }: RechargeI) 
                                 setIcon(getBrand(text))
                                 animatedCard(false)
                             }}
-                            icon={false} />
+                            icon={<Icon
+                                type='material-community'
+                                name={'numeric'}
+                                size={22}
+                                color={'#ccc'}
+                                tvParallaxProperties={undefined} />
+                            } />
 
                         <View style={{ flexDirection: 'row' }}>
                             <Input
@@ -132,8 +141,14 @@ const RechargeCard = ({ cardCode, setRechargeModal, RechargeModal }: RechargeI) 
                                     setData({ ...data, validate: text })
                                     animatedCard(false)
                                 }}
-                                width='45%'
-                                icon={false} />
+                                width='50%'
+                                icon={<Icon
+                                    type='material-community'
+                                    name={'calendar-range'}
+                                    size={22}
+                                    color={'#ccc'}
+                                    tvParallaxProperties={undefined} />
+                                } />
                             <Input
                                 placeholder='CVV'
                                 value={data.cvv}
@@ -146,8 +161,14 @@ const RechargeCard = ({ cardCode, setRechargeModal, RechargeModal }: RechargeI) 
                                     setData({ ...data, cvv: text })
                                     animatedCard(true)
                                 }}
-                                width='45%'
-                                icon={false} />
+                                width='50%'
+                                icon={<Icon
+                                    type='material-community'
+                                    name={'credit-card-chip'}
+                                    size={22}
+                                    color={'#ccc'}
+                                    tvParallaxProperties={undefined} />
+                                } />
                         </View>
                         <Button onPress={() => console.log(data, feed)}>
                             <TextButton>Realizar compra</TextButton>

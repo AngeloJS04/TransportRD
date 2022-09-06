@@ -9,7 +9,9 @@ interface propsInput {
     mask?: boolean
     value: string
     type?: any
+    keyboardType?: string
     options?: any
+    maxLength?: number
     onChangeText: (text: string) => void
 }
 
@@ -21,6 +23,8 @@ const Input: React.FC<propsInput> = ({
     value,
     type,
     options,
+    maxLength,
+    keyboardType,
     onChangeText
 }) => {
     return (
@@ -29,7 +33,7 @@ const Input: React.FC<propsInput> = ({
 
             {mask
                 ? <MaskTextInput value={value} type={type} options={options} onChangeText={(text: string) => onChangeText(text)} placeholder={placeholder} />
-                : <TextInput value={value} onChangeText={(text: string) => onChangeText(text)} placeholder={placeholder} />
+                : <TextInput value={value} keyboardType={keyboardType} maxLength={maxLength} placeholderTextColor={'#ccc'} onChangeText={(text: string) => onChangeText(text)} placeholder={placeholder} />
             }
         </Container>
     )
