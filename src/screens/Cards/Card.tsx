@@ -144,9 +144,9 @@ const CardScreen = () => {
                                     <Text style={{ fontSize: 24, marginVertical: 25, fontWeight: 'bold', fontStyle: 'italic' }} >Informacion de tarjeta</Text>
                                     <Text style={{ fontSize: 18 }}>SALDO DISPONIBLE:</Text>
 
-                                    <Card containerStyle={{ borderRadius: 20, alignItems: 'center', paddingHorizontal: 20, backgroundColor: item.amount > 0 ? '#3E850099' : '#FF030390' }}>
-                                        <Text style={{ fontSize: 22, fontWeight: 'bold', height: 30, color: '#fff' }}>{item.amount}</Text>
-                                    </Card>
+
+                                    <Text style={{ fontSize: 22, marginTop: 10, fontWeight: 'bold', height: 30, color: '#000' }}>RD$ {item.amount}</Text>
+
                                     <Text style={{ marginVertical: 10 }}>STATUS :
                                         <Text style={{ color: item.status ? '#3E850099' : '#FF030390' }}>{item.status ? 'ACTIVA' : 'INACTIVA'}</Text>
                                     </Text>
@@ -160,9 +160,6 @@ const CardScreen = () => {
                     }}
                 />
             </SafeAreaView>
-
-
-
         </ScrollView>
     )
 }
