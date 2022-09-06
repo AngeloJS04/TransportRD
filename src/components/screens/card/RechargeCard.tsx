@@ -17,7 +17,7 @@ const IconUser = '../../../../assets/img/icon-user.svg'
 interface RechargeI {
     cardCode: string,
     RechargeModal: boolean,
-    setRechargeModal: () => void
+    setRechargeModal: Function
 }
 
 const RechargeCard = ({ cardCode, setRechargeModal, RechargeModal }: RechargeI) => {
