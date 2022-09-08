@@ -2,14 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { MeI, ReduxMe } from "../../types/me.type";
 
-export const initialState: any = {
-    me: {
-        email: '',
-        uid: ''
-
-    }
-
-}
+export const initialState: any = { me: { email: '', uid: '' } }
 
 export const meSlice = createSlice({
     name: 'getMe',

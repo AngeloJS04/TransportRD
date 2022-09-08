@@ -1,4 +1,6 @@
 import Constants from "expo-constants";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
 export const firebaseConfig = {
   apiKey: Constants!.manifest!.extra!.apiKey,
@@ -8,6 +10,7 @@ export const firebaseConfig = {
   messagingSenderId: Constants!.manifest!.extra!.messagingSenderId,
   appId: Constants!.manifest!.extra!.appId
 };
-
-
-// const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+// export default database = getFirestore()

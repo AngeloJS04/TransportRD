@@ -1,42 +1,29 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Animated, Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, View, Text, Alert, TextInput } from 'react-native';
-import { Button, Card, Icon } from "react-native-elements";
+import { Animated, Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Button, ButtonGroup, Card } from "react-native-elements";
 import { useSelector } from "react-redux";
+import AddCard from "../../components/screens/card/AddCard";
+import RechargeCard from "../../components/screens/card/RechargeCard";
 import { RootState } from "../../redux/store/store";
-import { v4 as uuidv4 } from 'uuid';
-import ModalHome from "../../components/app/modal/modal";
-
-
-
-
-
-
-
-const imagenes = [
-    "https://revistaconstruir.com/wp-content/uploads/2021/01/metro-5ff4b2751b81c.jpg",
-    "https://omsa.gob.do/media/k2/items/cache/b48f2c03bbd159814922841bfb3fe7d7_XL.jpg",
-    "https://diariolibre.blob.core.windows.net.optimalcdn.com/images/binrepository/telerico-de-santo-domingo_11230891_20190207162543.jpg",
-    "https://i.ytimg.com/vi/dh4QGeay2Kc/maxresdefault.jpg",
-
-];
-
+import { ImageSlices } from "../../settings/Images";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height
 
 const CONTANER_WIDTH = width * 0.8
 const SIDE_SPACE = (width - CONTANER_WIDTH) / 2.2;
+const ALTURA_BACKDROP = height * 0.6;
 const SPACE = 7
-const ALTURA_BACKDROP = height * 0.5;
 
 
 function BackDrop({ scrollX }: any) {
 
     return (
         <View style={[{ height: ALTURA_BACKDROP, width, position: "absolute", top: 0 }]}>
-            {imagenes.map((imagen, index) => {
+
+            {ImageSlices.map((imagen, index) => {
                 const inputRange = [
                     (index - 1) * CONTANER_WIDTH,
                     index * CONTANER_WIDTH,
@@ -50,7 +37,7 @@ function BackDrop({ scrollX }: any) {
                 return (
                     <Animated.Image
                         key={index + 1}
-                        blurRadius={2}
+                        blurRadius={3}
                         source={{ uri: imagen }}
                         style={[
                             { width: width, height: ALTURA_BACKDROP, opacity },
@@ -73,20 +60,27 @@ function BackDrop({ scrollX }: any) {
     )
 }
 
-
 const CardScreen = () => {
 
     const { me } = useSelector((state: RootState) => state.me)
     const [showModalAdd, setShowModalAdd] = useState(false)
+    const [RechargeModal, setRechargeModal] = useState(false)
+    const [cardCode, setCardCode] = useState('')
 
     const Cards: any[] = [
-        { amount: 120, code: (Math.random() * 10), status: true, uid: me.uid },
-        { amount: 0, code: (Math.random() * 10), status: false, uid: me.uid },
-        { amount: 130, code: (Math.random() * 10), status: true, uid: me.uid },
-        { amount: 360, code: (Math.random() * 10), status: true, uid: me.uid }
+        { amount: 120, code: '5636468368786121', status: true, uid: me.uid },
+        { amount: 0, code: '1236718728386422', status: false, uid: me.uid },
+        { amount: 130, code: '2435768718726135', status: true, uid: me.uid },
+        { amount: 360, code: '8236785761786628', status: true, uid: me.uid }
     ]
 
     const scrollX = React.useRef(new Animated.Value(0)).current;
+
+
+    const rechargeCard = (code: string) => {
+        setRechargeModal(true)
+        setCardCode(code);
+    }
 
     return (
         <ScrollView>
@@ -97,33 +91,10 @@ const CardScreen = () => {
                 <BackDrop scrollX={scrollX} />
 
                 <View style={{ justifyContent: 'flex-end', alignContent: 'flex-end', alignItems: 'flex-end', marginLeft: 230 }}>
-                    <Button title="Recargar tarjeta" buttonStyle={styles.appCard}
-                        onPress={() => setShowModalAdd(true)}
-                    />
-
-                    {
-                        showModalAdd && (
-                            <ModalHome>
-                                <View>
-                                    <Text style={{ fontSize: 22, fontStyle: 'italic', marginBottom: 20, fontWeight: 'bold' }}>Recargar  tarjeta</Text>
-                                    <Text style={{ fontSize: 15, color: '#000', fontWeight: 'bold', marginLeft: 18 }}>Monto</Text>
-                                    <TextInput
-                                        style={styles.input}
-                                        keyboardType='numeric'
-                                        placeholder="Ingresa un monto"
-                                    // onChangeText={onChangeText}
-                                    // value={text}
-                                    />
-                                    <Text style={{ fontSize: 12, color: '#000', fontWeight: 'bold', marginLeft: 18 }}>RD$20 = 1 Viaje</Text>
-                                    <Button title={'Recargar'} buttonStyle={{ backgroundColor: '#3E8500', borderRadius: 30 }} onPress={() => setShowModalAdd(false)}></Button>
-
-                                </View>
-                            </ModalHome>
-                        )
-                    }
+                    {!showModalAdd && !RechargeModal && <Button title="Añadir tarjeta" buttonStyle={styles.appCard} onPress={() => setShowModalAdd(true)} />}
+                    {showModalAdd && (<AddCard setShowModalAdd={setShowModalAdd} />)}
+                    {RechargeModal && (<RechargeCard cardCode={cardCode} RechargeModal={RechargeModal} setRechargeModal={setRechargeModal} />)}
                 </View>
-
-
 
                 <Animated.FlatList
                     onScroll={Animated.event(
@@ -137,7 +108,7 @@ const CardScreen = () => {
                     decelerationRate={0}
                     snapToInterval={CONTANER_WIDTH}
                     scrollEventThrottle={16}
-                    keyExtractor={(item) => item}
+                    keyExtractor={(item) => item.code}
                     renderItem={({ item, index }) => {
                         const inputRange = [
                             (index - 1) * CONTANER_WIDTH,
@@ -166,39 +137,34 @@ const CardScreen = () => {
 
 
                                     <Image source={require("../../../assets/img/card.jpg")} style={styles.posterImage} />
-
                                 </Animated.View>
-                                <View style={[styles.container, { marginTop: 40, marginLeft: 50, marginRight: 30 }]}>
-                                    <Text style={{ fontSize: 24, marginVertical: 30, fontWeight: 'bold', fontStyle: 'italic' }} >Informacion de tarjeta</Text>
+                                <View style={[styles.container, { marginTop: 4, marginLeft: 50, marginRight: 30 }]}>
+
+                                    <Button title={"Recargar"} onPress={() => rechargeCard(item.code)} buttonStyle={{ borderRadius: 50, backgroundColor: '#3E850099' }} />
+                                    <Text style={{ fontSize: 24, marginVertical: 25, fontWeight: 'bold', fontStyle: 'italic' }} >Informacion de tarjeta</Text>
                                     <Text style={{ fontSize: 18 }}>SALDO DISPONIBLE:</Text>
 
-                                    <Card containerStyle={{ borderRadius: 20, alignItems: 'center', backgroundColor: item.amount > 0 ? '#3E850099' : '#FF030390' }}>
-                                        <Text style={{ fontSize: 22, fontWeight: 'bold', height: 30, color: '#fff' }}>{item.amount}</Text>
-                                    </Card>
+                                    <Text style={{ fontSize: 11 }}>*(RD$20 = 1 VIAJE)*</Text>
+                                    <Text style={{ fontSize: 22, marginTop: 10, fontWeight: 'bold', height: 30, color: '#000' }}>RD$ {item.amount}</Text>
 
                                     <Text style={{ marginVertical: 10 }}>STATUS :
                                         <Text style={{ color: item.status ? '#3E850099' : '#FF030390' }}>{item.status ? 'ACTIVA' : 'INACTIVA'}</Text>
                                     </Text>
                                     <Text style={{ marginVertical: 10, fontSize: 11 }}>ID TARJETA :
-                                        {item.code}
+                                        {item.code.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim()}
                                     </Text>
 
                                 </View>
-
                             </View>
                         )
                     }}
                 />
             </SafeAreaView>
-
-
-
         </ScrollView>
     )
 }
 
 export const styles = StyleSheet.create({
-
 
     container: {
         justifyContent: 'center',
