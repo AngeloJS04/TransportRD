@@ -144,7 +144,7 @@ const CardScreen = () => {
                                     <Text style={{ fontSize: 24, marginVertical: 25, fontWeight: 'bold', fontStyle: 'italic' }} >Informacion de tarjeta</Text>
                                     <Text style={{ fontSize: 18 }}>SALDO DISPONIBLE:</Text>
 
-
+                                    <Text style={{ fontSize: 11 }}>*(RD$20 = 1 VIAJE)*</Text>
                                     <Text style={{ fontSize: 22, marginTop: 10, fontWeight: 'bold', height: 30, color: '#000' }}>RD$ {item.amount}</Text>
 
                                     <Text style={{ marginVertical: 10 }}>STATUS :

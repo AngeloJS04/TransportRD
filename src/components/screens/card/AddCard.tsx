@@ -2,26 +2,45 @@ import React, { useEffect, useState } from 'react'
 import { TextInput, View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native'
 import { Button } from 'react-native-elements'
 import { useForm } from '../../../hooks/useForm'
-import ModalHome from '../../app/modal/modal'
+import ModalHome from '../../app/modal/modal';
+import { collection, doc, getDocs, onSnapshot, orderBy, query, QuerySnapshot } from 'firebase/firestore';
+import { db, firebaseConfig } from '../../../../fb';
 
 const AddCard = ({ setShowModalAdd }: any) => {
-    const card = 'https://pbs.twimg.com/media/Dob2TJOU8AE8SR3.jpg'
+    const card = 'https://pbs.twimg.com/media/Dob2TJOU8AE8SR3.jpg';
+
 
     const [codeErrors, SetCodeErrors] = useState<string[]>([]);
     const { code, onChange }: any = useForm({ code: '' });
 
+
+    const [listCards, setListCards]: any[] = useState([])
+    const [cards, setCards] = useState({ id: '', status: true, amount: '' })
+
+
     useEffect(() => {
 
-    }, [code])
+        const getCards = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'globalCards'))
+                const docs: any[] = []
+                querySnapshot.forEach((doc) => {
+                    docs.push({ ...doc.data() })
+                })
+                setListCards(docs)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getCards()
+    }, [])
 
     const handleSubmit = () => {
-
         if (code.length < 19) {
             SetCodeErrors(["el codigo debe contener 16 digitos"])
             return false
         }
-        Alert.alert(code);
-        console.log(code.replaceAll(' ', ''));
+        console.log(listCards.filter(((card: { id: string; }) => card.id === code.replaceAll(' ', ''))))
         SetCodeErrors([])
     }
 
