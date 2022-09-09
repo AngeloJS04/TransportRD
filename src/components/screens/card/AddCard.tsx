@@ -39,21 +39,14 @@ const AddCard = ({ setShowModalAdd }: AddCardI) => {
 
     const handleSubmit = () => {
 
-        if (code.length < 19) {
-            SetCodeErrors(["el codigo debe contener 16 digitos"])
-            return
-        }
+        if (code.length < 19) { SetCodeErrors(["el codigo debe contener 16 digitos"]); return }
+
         const foundCard = listCards.find(((card: { id: string; }) => card.id === code.replaceAll(' ', '')))
 
-        if (foundCard === undefined) {
-            SetCodeErrors(["Esta tarjeta no existe"])
-            return
-        }
+        if (foundCard === undefined) { SetCodeErrors(["Esta tarjeta no existe"]); return }
 
-        if (cards.find(((item) => item.id === foundCard.id))) {
-            SetCodeErrors(["Esta tarjeta ya existe"])
-            return
-        }
+        if (cards.find(((item) => item.id === foundCard.id))) { SetCodeErrors(["Esta tarjeta ya existe"]); return }
+
         setLoading(true)
 
         dispatch(setCards([...cards, foundCard]))
@@ -62,7 +55,7 @@ const AddCard = ({ setShowModalAdd }: AddCardI) => {
             SetCodeErrors([])
             setLoading(false)
             setShowModalAdd(false)
-        }, 2000);
+        }, 1500);
     }
 
     return (
