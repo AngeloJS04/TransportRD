@@ -87,8 +87,8 @@ export function LoginScreen() {
                 const user = userCredential.user;
 
                 // console.log(user)
-                dispatch(setMe({ me: { email: user.email, uid: user.uid } }))
                 dispatch(setSignIn({ SignIn: true }))
+                dispatch(setMe({ me: { email: user.email, uid: user.uid } }))
             })
             .catch((err) => {
                 console.log(err)

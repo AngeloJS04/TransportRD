@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import { TextInput, View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native'
-import { Button } from 'react-native-elements'
-import { useForm } from '../../../hooks/useForm'
+import { collection, getDocs } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { db } from '../../../../fb';
+import { useForm } from '../../../hooks/useForm';
+import { setCards } from '../../../redux/slices/cards/cards';
+import { RootState } from '../../../redux/store/store';
 import ModalHome from '../../app/modal/modal';
-import { collection, doc, getDocs, onSnapshot, orderBy, query, QuerySnapshot } from 'firebase/firestore';
-import { db, firebaseConfig } from '../../../../fb';
 
 const AddCard = ({ setShowModalAdd }: any) => {
     const card = 'https://pbs.twimg.com/media/Dob2TJOU8AE8SR3.jpg';
-
+    const dispatch = useDispatch();
+    const cards = useSelector((state: RootState) => state.cards.cards)
 
     const [codeErrors, SetCodeErrors] = useState<string[]>([]);
     const { code, onChange }: any = useForm({ code: '' });
 
-
     const [listCards, setListCards]: any[] = useState([])
-    const [cards, setCards] = useState({ id: '', status: true, amount: '' })
-
+    // const [cards, setCards] = useState({ id: '', status: true, amount: '' })
 
     useEffect(() => {
-
         const getCards = async () => {
             try {
                 const querySnapshot = await getDocs(collection(db, 'globalCards'))
@@ -40,8 +40,15 @@ const AddCard = ({ setShowModalAdd }: any) => {
             SetCodeErrors(["el codigo debe contener 16 digitos"])
             return false
         }
-        console.log(listCards.filter(((card: { id: string; }) => card.id === code.replaceAll(' ', ''))))
+        const findedCard = listCards.find(((card: { id: string; }) => card.id === code.replaceAll(' ', '')))
+
+        if (cards.includes(findedCard)) {
+            SetCodeErrors(["Esta tarjeta ya se añadio"])
+            return
+        }
+        dispatch(setCards([...cards, findedCard]))
         SetCodeErrors([])
+        console.log(findedCard);
     }
 
     return (

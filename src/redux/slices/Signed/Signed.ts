@@ -7,7 +7,7 @@ export const initialState: SignI = { SignIn: false }
 
 export const SignInSlice = createSlice({
     name: 'getSignIn',
-    initialState: false,
+    initialState,
     reducers: {
         setSignIn: (state: any, action: PayloadAction<any>) => { return state.SignIn = action.payload }
         // {

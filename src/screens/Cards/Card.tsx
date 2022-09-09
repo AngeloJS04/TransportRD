@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Animated, Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Button, ButtonGroup, Card } from "react-native-elements";
 import { useSelector } from "react-redux";
@@ -16,6 +16,7 @@ const CONTANER_WIDTH = width * 0.8
 const SIDE_SPACE = (width - CONTANER_WIDTH) / 2.2;
 const ALTURA_BACKDROP = height * 0.6;
 const SPACE = 7
+
 
 
 function BackDrop({ scrollX }: any) {
@@ -63,6 +64,9 @@ function BackDrop({ scrollX }: any) {
 const CardScreen = () => {
 
     const { me } = useSelector((state: RootState) => state.me)
+    const cards = useSelector((state: RootState) => state.cards)
+
+
     const [showModalAdd, setShowModalAdd] = useState(false)
     const [RechargeModal, setRechargeModal] = useState(false)
     const [cardCode, setCardCode] = useState('')
