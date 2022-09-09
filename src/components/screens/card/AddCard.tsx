@@ -14,10 +14,9 @@ const AddCard = ({ setShowModalAdd }: any) => {
     const cards = useSelector((state: RootState) => state.cards.cards)
 
     const [codeErrors, SetCodeErrors] = useState<string[]>([]);
-    const { code, onChange }: any = useForm({ code: '' });
+    const { code, onChange, clear, setState }: any = useForm({ code: '' });
 
     const [listCards, setListCards]: any[] = useState([])
-    // const [cards, setCards] = useState({ id: '', status: true, amount: '' })
 
     useEffect(() => {
         const getCards = async () => {
@@ -38,17 +37,24 @@ const AddCard = ({ setShowModalAdd }: any) => {
     const handleSubmit = () => {
         if (code.length < 19) {
             SetCodeErrors(["el codigo debe contener 16 digitos"])
-            return false
-        }
-        const findedCard = listCards.find(((card: { id: string; }) => card.id === code.replaceAll(' ', '')))
-
-        if (cards.includes(findedCard)) {
-            SetCodeErrors(["Esta tarjeta ya se añadio"])
             return
         }
-        dispatch(setCards([...cards, findedCard]))
+        const foundCard = listCards.find(((card: { id: string; }) => card.id === code.replaceAll(' ', '')))
+
+        if (foundCard === undefined) {
+            SetCodeErrors(["Esta tarjeta no existe"])
+            return
+        }
+
+        if (cards.find(((item) => item.id === foundCard.id))) {
+            SetCodeErrors(["Esta tarjeta ya existe"])
+            return
+        }
+
+        dispatch(setCards([...cards, foundCard]))
+
         SetCodeErrors([])
-        console.log(findedCard);
+        setShowModalAdd(false)
     }
 
     return (
