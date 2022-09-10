@@ -1,16 +1,17 @@
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { db } from '../../../../fb';
 import { useForm } from '../../../hooks/useForm';
 import { AddCardI } from '../../../interface/card.interface';
 import { setCards } from '../../../redux/slices/cards/cards';
 import { RootState } from '../../../redux/store/store';
+import { CardsI } from '../../../redux/types/card.type';
+import { CardStyle } from '../../../theme/Card.style';
 import ModalHome from '../../app/modal/modal';
 
 const cardPhoto = 'https://pbs.twimg.com/media/Dob2TJOU8AE8SR3.jpg';
-
 
 const AddCard = ({ setShowModalAdd }: AddCardI) => {
 
@@ -23,36 +24,35 @@ const AddCard = ({ setShowModalAdd }: AddCardI) => {
 
     const { code, onChange } = useForm({ code: '' });
 
-    useEffect(() => {
-        const getCards = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, 'globalCards'))
-                const docs: any[] = []
-                querySnapshot.forEach((doc) => {
-                    docs.push({ ...doc.data() })
-                })
-                setListCards(docs)
-            } catch (error) { console.log(error) }
-        }
-        getCards()
-    }, [])
+
+    const getCards = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'globalCards'))
+            const docs: any[] = []
+            querySnapshot.forEach((doc) => {
+                docs.push({ ...doc.data() })
+            })
+            setListCards(docs)
+        } catch (error) { console.log(error) }
+    }
+
+    useEffect(() => { getCards() }, [])
 
     const handleSubmit = () => {
 
         if (code.length < 19) { SetCodeErrors(["el codigo debe contener 16 digitos"]); return }
 
-        const foundCard = listCards.find(((card: { id: string; }) => card.id === code.replaceAll(' ', '')))
+        const foundCard: CardsI = listCards.find(((card: CardsI) => card.id === code.replaceAll(' ', '')))
 
         if (foundCard === undefined) { SetCodeErrors(["Esta tarjeta no existe"]); return }
-
         if (cards.find(((item) => item.id === foundCard.id))) { SetCodeErrors(["Esta tarjeta ya existe"]); return }
 
         setLoading(true)
-
         dispatch(setCards([...cards, foundCard]))
 
+        SetCodeErrors([])
+
         setTimeout(() => {
-            SetCodeErrors([])
             setLoading(false)
             setShowModalAdd(false)
         }, 1500);
@@ -77,11 +77,12 @@ const AddCard = ({ setShowModalAdd }: AddCardI) => {
                                 size={'large'}
                                 color={'#4A9CD5'}
                                 animating={true}
+
                             />
                         </View>
                     )}
                     <TextInput
-                        style={styles.input}
+                        style={CardStyle.input}
                         keyboardType='numeric'
                         placeholder="Ingresa un monto"
                         maxLength={19}
@@ -89,46 +90,21 @@ const AddCard = ({ setShowModalAdd }: AddCardI) => {
                         value={code.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim()}
                     />
                     <Text style={{ color: 'red', marginLeft: 30 }}>{codeErrors[0]}</Text>
-                    <View style={[styles.containerImg, { justifyContent: 'center', marginTop: 10 }]}>
-                        <TouchableOpacity onPress={() => setShowModalAdd(false)} style={[styles.button, { backgroundColor: '#FF4040' }]}>
+
+                    <View style={[CardStyle.containerImg, { justifyContent: 'center', marginTop: 10 }]}>
+
+                        <TouchableOpacity onPress={() => setShowModalAdd(false)} style={[CardStyle.button, { backgroundColor: '#FF4040' }]}>
                             <Text style={{ color: '#fff' }}>Cancelar</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={handleSubmit} style={[styles.button, { backgroundColor: '#3E8500', paddingHorizontal: 26 }]}>
+
+                        <TouchableOpacity onPress={handleSubmit} style={[CardStyle.button, { backgroundColor: '#3E8500', paddingHorizontal: 26 }]}>
                             <Text style={{ color: '#fff' }}>Añadir</Text>
                         </TouchableOpacity>
+
                     </View>
                 </View>
             </ModalHome>
         </View>
     )
 }
-
-export const styles = StyleSheet.create({
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-        borderRadius: 30
-    },
-    containerImg: {
-        display: 'flex',
-        flexDirection: 'row'
-    },
-    button: {
-        marginHorizontal: 10,
-        height: 40,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginVertical: 4,
-        borderColor: '#ccc',
-
-        color: '#ccc',
-        borderWidth: 1,
-        paddingHorizontal: 20
-
-    }
-})
-
-export default AddCard
+export default AddCard 
