@@ -159,13 +159,11 @@ const CardScreen = () => {
 
                                         </View>
                                     </>
-
                                 }
                             </View>
                         )
                     }}
                 />
-
             </SafeAreaView>
         </ScrollView>
     )
