@@ -18,7 +18,6 @@ export function BottomTabs() {
     const dispatch = useDispatch();
     const IsSignedIn = useSelector((state: RootState) => state.signIn)
 
-
     const screenOptions = (route: any, color: any) => {
         let iconName
 

@@ -12,6 +12,12 @@ import { Icon } from 'react-native-elements';
 // import IconDate from '../../../../assets/img/icon-date.svg'
 // import IconNumber from '../../../../assets/img/icon-number.svg'
 import { ScrollView, Container, Header, Title, Subtitle, Content, Button, TextButton } from './styles'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../../redux/store/store'
+import { CardsI } from '../../../redux/types/card.type'
+import { editCards, setCards } from '../../../redux/slices/cards/cards'
+import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { db } from '../../../../fb'
 const IconUser = '../../../../assets/img/icon-user.svg'
 
 interface RechargeI {
@@ -25,9 +31,11 @@ const RechargeCard = ({ cardCode, setRechargeModal, RechargeModal }: RechargeI) 
     const [widthAnimated, setWidthAnimated] = useState(new Animated.Value(310))
     const [backView, setBackView] = useState(false)
     const [feed, setFeed] = useState('')
-    const [icon, setIcon] = useState({
-        icon: false
-    })
+    const dispatch = useDispatch();
+    const cards = useSelector((state: RootState) => state.cards.cards)
+
+    const [icon, setIcon] = useState({ icon: false })
+
     const [data, setData] = useState({
         name: '',
         number: '',
@@ -54,6 +62,21 @@ const RechargeCard = ({ cardCode, setRechargeModal, RechargeModal }: RechargeI) 
             }, 400)
         }
     }
+    const handleSubmit = async () => {
+
+        const foundCard: any = cards.find(((card: CardsI) => card?.id === cardCode))
+        const newAmount = +foundCard.amount + +feed
+        const { uid } = foundCard
+        const docRef = doc(db, 'globalCards', uid)
+
+        await updateDoc(docRef, { amount: newAmount })
+
+        dispatch(editCards({ ...foundCard, amount: newAmount }))
+
+        setRechargeModal(false)
+
+    }
+
     return (
 
         <View >
@@ -170,7 +193,7 @@ const RechargeCard = ({ cardCode, setRechargeModal, RechargeModal }: RechargeI) 
                                     tvParallaxProperties={undefined} />
                                 } />
                         </View>
-                        <Button onPress={() => console.log(data, feed)}>
+                        <Button onPress={handleSubmit}>
                             <TextButton>Realizar compra</TextButton>
                         </Button>
                     </Content>
