@@ -30,9 +30,10 @@ const AddCard = ({ setShowModalAdd }: AddCardI) => {
             const querySnapshot = await getDocs(collection(db, 'globalCards'))
             const docs: any[] = []
             querySnapshot.forEach((doc) => {
-                docs.push({ ...doc.data() })
+                docs.push({ ...doc.data(), uid: doc.id })
             })
             setListCards(docs)
+
         } catch (error) { console.log(error) }
     }
 
