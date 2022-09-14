@@ -3,40 +3,45 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Card } from 'react-native-elements'
 import WelcomeModal from '../../components/app/welcomeModal'
 import { ScrollView } from '../../components/screens/card/styles'
+import { CardsItems } from '../../settings/CardsNews.settings'
 
 const HomeScreen = () => {
     const [active, setActive] = useState(true)
 
-
     return (
-        <View>
-            {active && (<WelcomeModal active={active} setActive={setActive} />)}
+        <View style={{ marginBottom: 140 }}>
 
+            <View style={{ alignItems: 'center' }}>
+                <Text style={{ marginVertical: 20, fontSize: 22, fontStyle: 'italic' }}>{`Noticias del dia - ${new Date().toLocaleString().split(',')[0]}`}</Text>
+            </View>
 
-            <Text>Ultimas noticias</Text>
+            <View >
+                <ScrollView >
+                    {
+                        CardsItems.map((card, index) => (
+                            <View key={index}>
+                                {/* @ts-ignore */}
+                                <Card
+                                    containerStyle={{ borderRadius: 15 }}
+                                >
+                                    <Card.Title style={{ fontStyle: 'italic' }}>{card.title}</Card.Title>
+                                    <Card.Divider />
+                                    <View style={{ display: 'flex', flexDirection: 'row' }}>
+                                        {/* @ts-ignore */}
+                                        <Card.Image
+                                            style={{ padding: 70, borderRadius: 15, marginRight: 20, height: 30 }}
+                                            source={{ uri: card.image }}
+                                        />
+                                        {/* @ts-ignore */}
+                                        <Text style={{ marginBottom: 0, flex: '1 auto', fontSize: 14, fontWeight: '300' }}>
+                                            {card.text}
+                                        </Text>
+                                    </View>
+                                </Card>
 
-            <View>
-                <ScrollView>
-
-                    {/* @ts-ignore */}
-                    <Card
-                        containerStyle={{ borderRadius: 15 }}
-                    >
-                        <Card.Title>Nueva linea en los alcarrizos</Card.Title>
-                        <Card.Divider />
-                        <View style={{ display: 'flex', flexDirection: 'row' }}>
-                            {/* @ts-ignore */}
-                            <Card.Image
-                                style={{ padding: 70, borderRadius: 15, marginRight: 20, height: 30 }}
-                                source={{ uri: 'https://diariolibre.blob.core.windows.net.optimalcdn.com/images/binrepository/metro-de-santo-domingo_15651189_20210127202704.jpg', }}
-                            />
-                            {/* @ts-ignore */}
-                            <Text style={{ marginBottom: 0, flex: '1 auto', fontSize: 14, fontWeight: '300' }}>
-                                The idea with React Native Elements is more about component
-                            </Text>
-                        </View>
-                    </Card>
-
+                            </View>
+                        ))
+                    }
                 </ScrollView>
             </View>
 

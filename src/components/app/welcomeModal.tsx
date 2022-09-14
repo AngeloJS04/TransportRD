@@ -27,7 +27,8 @@ const WelcomeModal = ({ active, setActive }: { active: boolean, setActive: Funct
 const styles = StyleSheet.create({
     containerModal: {
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+
     },
     textOne: {
         fontSize: 30,
