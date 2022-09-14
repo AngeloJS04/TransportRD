@@ -87,7 +87,7 @@ export function LoginScreen() {
                 const user = userCredential.user;
 
                 // console.log(user)
-                dispatch(setSignIn({ SignIn: true }))
+                dispatch(setSignIn(true))
                 dispatch(setMe({ me: { email: user.email, uid: user.uid } }))
             })
             .catch((err) => {
@@ -112,9 +112,13 @@ export function LoginScreen() {
         >
             <View style={LoginStyle.container}>
                 <Image source={require("../../../assets/img/maps.png")} style={[LoginStyle.image, StyleSheet.absoluteFill]} blurRadius={3} />
-                <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-                    <Image source={{ uri: bandera }} style={LoginStyle.bandera} />
-                </View>
+                {
+                    !isCreate ?
+                        <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+                            <Image source={{ uri: bandera }} style={LoginStyle.bandera} />
+                        </View>
+                        : null
+                }
 
                 <ScrollView contentContainerStyle={{
                     flex: 1,
@@ -124,7 +128,7 @@ export function LoginScreen() {
                     justifyContent: 'center'
                 }}>
                     <BlurView intensity={100}>
-                        <View style={[LoginStyle.login, !isCreate ? { marginTop: 0 } : { marginTop: 88, }]}>
+                        <View style={[LoginStyle.login, !isCreate ? { marginTop: 0 } : { marginTop: 148, }]}>
                             <Image source={{ uri: profile }} style={LoginStyle.profile} />
                             {!isCreate ?
                                 <View>
@@ -150,7 +154,7 @@ export function LoginScreen() {
 
                                 :
 
-                                <View>
+                                <View >
 
                                     <View>
                                         <Text style={{ fontSize: 14, fontWeight: '400', color: '#000' }}>Cedula</Text>

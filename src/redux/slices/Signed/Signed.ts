@@ -9,7 +9,9 @@ export const SignInSlice = createSlice({
     name: 'getSignIn',
     initialState,
     reducers: {
-        setSignIn: (state: any, action: PayloadAction<any>) => { return state.SignIn = action.payload }
+        setSignIn: (state: any, action: PayloadAction<boolean>) => {
+            state.SignIn = action.payload
+        }
         // {
         //     return state.SignIn = action.payload
 

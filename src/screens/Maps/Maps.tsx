@@ -8,9 +8,10 @@ import {
     TouchableOpacity,
 } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import WelcomeModal from "../../components/app/welcomeModal";
 
 export default function MapsScreen() {
-
+    const [active, setActive] = useState(true)
     const [dark, setDark] = useState(false);
     const [origin, setOrigin] = useState({ latitude: 18.450349, longitude: -69.927622 })
 
@@ -18,6 +19,7 @@ export default function MapsScreen() {
 
     return (
         <View style={styles.container}>
+            {active && (<WelcomeModal active={active} setActive={setActive} />)}
             <MapView
                 style={styles.map}
                 provider={PROVIDER_GOOGLE}
