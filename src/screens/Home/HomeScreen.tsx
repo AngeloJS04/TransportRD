@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Pressable } from 'react-native'
-import { useSelector } from 'react-redux'
-import ModalHome from '../../components/app/modal/modal'
-import { RootState } from '../../redux/store/store'
+import React, { useState } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import { Card } from 'react-native-elements'
+import WelcomeModal from '../../components/app/welcomeModal'
+import { ScrollView } from '../../components/screens/card/styles'
 
 const HomeScreen = () => {
     const [active, setActive] = useState(true)
@@ -10,34 +10,38 @@ const HomeScreen = () => {
 
     return (
         <View>
+            {active && (<WelcomeModal active={active} setActive={setActive} />)}
 
 
-            <Text>Home</Text>
+            <Text>Ultimas noticias</Text>
+
+            <View>
+                <ScrollView>
+
+                    {/* @ts-ignore */}
+                    <Card
+                        containerStyle={{ borderRadius: 15 }}
+                    >
+                        <Card.Title>Nueva linea en los alcarrizos</Card.Title>
+                        <Card.Divider />
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            {/* @ts-ignore */}
+                            <Card.Image
+                                style={{ padding: 70, borderRadius: 15, marginRight: 20, height: 30 }}
+                                source={{ uri: 'https://diariolibre.blob.core.windows.net.optimalcdn.com/images/binrepository/metro-de-santo-domingo_15651189_20210127202704.jpg', }}
+                            />
+                            {/* @ts-ignore */}
+                            <Text style={{ marginBottom: 0, flex: '1 auto', fontSize: 14, fontWeight: '300' }}>
+                                The idea with React Native Elements is more about component
+                            </Text>
+                        </View>
+                    </Card>
+
+                </ScrollView>
+            </View>
 
 
-
-            {
-                active &&
-                <ModalHome active={active} setActive={setActive}>
-
-                    <View style={styles.containerModal}>
-                        <Text style={styles.textOne}>¡Bienvenido!</Text>
-
-                        <Text style={styles.textSecondary}>
-                            ¡Hola, te damos la bienvenida a Trasnport App, la aplicacion donde podras recargan tus tarjetas del metro,
-                            enviar saldo y ver cuando vendra tu proximo transporte.
-                        </Text>
-
-                        <Pressable
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => setActive(!active)}
-                        >
-                            <Text style={styles.textStyle}>Continuar</Text>
-                        </Pressable>
-                    </View>
-                </ModalHome>
-            }
-        </View>
+        </View >
 
 
     )

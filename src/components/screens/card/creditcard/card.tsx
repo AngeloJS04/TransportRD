@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { ActivityIndicator } from "react-native";
 import { Icon } from "react-native-elements";
 
 import { Container, Content, Strip, TextCVV, View, Text, ViewInformation } from './styles'
@@ -18,6 +19,7 @@ const Card: React.FC<propsCard> = ({ data, back, icon }) => {
     return (
         <Container>
             <Content>
+
                 {back
                     ?
                     <Strip>
@@ -25,6 +27,7 @@ const Card: React.FC<propsCard> = ({ data, back, icon }) => {
                     </Strip>
                     :
                     <ViewInformation>
+
                         <Icon
                             type='ionicon'
                             name={'hardware-chip'}
