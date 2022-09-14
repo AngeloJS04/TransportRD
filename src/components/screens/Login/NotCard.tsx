@@ -6,7 +6,7 @@ const NotCard = () => {
     return (
         <View style={{ marginTop: 250, backgroundColor: '#fff', borderRadius: 25, padding: 20 }}>
             <Text style={{ fontSize: 25, fontStyle: 'italic', textAlign: 'center' }}> No tienes tarjetas disponibles!</Text>
-            <Text style={{ textAlign: 'center', fontSize: 15, marginBottom: 10 }}>añade una en el boton superior derecho</Text>
+            <Text style={{ textAlign: 'center', fontSize: 15, marginBottom: 10 }}>añade una en el boton superior derecho para guardarla o recargar a un amigo</Text>
             <Icon
                 type='ionicon'
                 name={'card-outline'}
