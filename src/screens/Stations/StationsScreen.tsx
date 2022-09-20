@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import DropdownItem from '../../components/app/dropdown/Dropdown';
-import { pageUrl } from '../../helpers/getURL';
+// import { pageUrl } from '../../helpers/getURL';
 
 const stationsOne = 'https://www.metrosantodomingo.com/bundles/MetroBundle/images/lineas-metro-santo-domingo/linea1-metro-santo-domingo.png'
 
