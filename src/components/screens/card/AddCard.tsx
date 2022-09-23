@@ -1,6 +1,6 @@
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, Text, TextInput, TouchableOpacity, View, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { db } from '../../../../fb';
 import { useForm } from '../../../hooks/useForm';
@@ -40,12 +40,12 @@ const AddCard = ({ setShowModalAdd }: AddCardI) => {
     useEffect(() => { getCards() }, [])
 
     const handleSubmit = () => {
-
         if (code.length < 19) { SetCodeErrors(["el codigo debe contener 16 digitos"]); return }
 
-        const foundCard: CardsI = listCards.find(((card: CardsI) => card.id === code.replaceAll(' ', '')))
+        const foundCard: CardsI = listCards.find(((card: CardsI) => card?.id === (Platform.OS === 'android' ? code.replace(/\s/g, "") : code.replaceAll(' ', ''))))
 
         if (foundCard === undefined) { SetCodeErrors(["Esta tarjeta no existe"]); return }
+
         if (cards.find(((item) => item.id === foundCard.id))) { SetCodeErrors(["Esta tarjeta ya existe"]); return }
 
         setLoading(true)

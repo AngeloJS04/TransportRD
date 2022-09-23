@@ -1,105 +1,104 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { View, Text, ActivityIndicator } from 'react-native'
+import { View, Text, ActivityIndicator, Dimensions } from 'react-native'
 import { Card } from 'react-native-elements'
+import Skeleton from '../../components/app/skeleton'
 import { ScrollView } from '../../components/screens/card/styles'
 import CheckboxShedule from '../../components/screens/home/checkbox'
 import { NewsPropsI } from '../../interface/home/home.interface'
+import { CardsItems } from '../../settings/CardsNews.settings'
 import { HomeStyles } from '../../theme/home.style'
 
 const HomeScreen = () => {
     // const [active, setActive] = useState(true)
     const [isSelected, setSelection] = useState(false);
-    const [showNews, setShowNews] = useState(false);
+    const [showNews, setShowNews] = useState(true);
     const [showStations, SetshowStations] = useState(false);
+    const [showSCableWay, SetshowSCableWay] = useState(false);
     const [newList, setNewList] = useState<NewsPropsI[]>([])
     const [shedules, setShedules] = useState<any[]>([])
     const [loading, setLoading] = useState(false)
 
-    const getInfo = async () => {
+    const cardWidth = Dimensions.get("window").width * 0.8;
+    const skeWidth = cardWidth + 7;
 
+    const getInfo = async () => {
         setLoading(true)
+
         const { data: news } = await axios('https://api-metro.onrender.com/opret-news')
         setNewList(news.newsList)
 
-        setLoading(false)
         const { data: shedule } = await axios('https://api-metro.onrender.com/schedule-trains')
         setShedules(shedule.schedulesMetro)
 
-
+        setLoading(false)
     }
 
-    useEffect(() => {
-        // if (showNews) { setSelection(false) }
-        getInfo()
-    }, [])
+    useEffect(() => { getInfo() }, [])
 
     return (
-        <View style={{ marginBottom: 270 }}>
+        <View style={{ marginBottom: showNews ? 140 : 710 }}>
             <View style={{ alignItems: 'center' }}>
                 <Text style={HomeStyles.titleDate}>
                     Informaciones Generales
                 </Text>
             </View>
 
-            {loading && (
-                <View >
-                    <ActivityIndicator
-                        size={'large'}
-                        color={'#4A9CD5'}
-                        animating={true}
-
-                    />
-                </View>
-            )}
-            {newList.length && shedules.length && !isSelected ? !showStations ?
+            {newList.length && !isSelected ? !showStations ? !showSCableWay ?
                 <CheckboxShedule
                     isSelected={showNews}
                     titleShow={`Ver Noticias`}
                     titleHide={`Ocultar Noticias`}
                     setSelection={setShowNews}
-                /> : null : null}
+                /> : null : null : null}
 
-            <View>
+            <ScrollView >
+                {loading && !newList.length ? (
+                    [1, 2].map(i => (
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 10 }} key={i}>
+                            <View style={[HomeStyles.card, { width: cardWidth + 40 }]}>
+                                {/* <Skeleton height={40} width={40} style={{ borderRadius: 20 }} /> */}
+                                <Skeleton height={(skeWidth / 16) * 2} width={skeWidth} style={{ borderRadius: 1, marginTop: 4 }} />
+                                <Skeleton height={20} width={70} style={{ borderRadius: 10, marginTop: 4 }} />
+                                <Skeleton height={(skeWidth / 16) * 5} width={skeWidth} style={{ borderRadius: 1, marginTop: 4 }} />
+                            </View>
+                        </View>
+                    ))
+                ) : null}
                 {
                     showNews && (
-                        <ScrollView >
-                            {
-                                newList.map((card, index) => (
-                                    <View key={index}>
+                        newList.map((card, index) => (
+                            <View key={index}>
+                                {/* @ts-ignore */}
+                                <Card
+                                    containerStyle={{ borderRadius: 15 }}
+                                >
+                                    <Card.Title style={HomeStyles.cardTitle}>{card.title}</Card.Title>
+                                    <Text style={HomeStyles.cardText}>{card.date}</Text>
+                                    <Card.Divider />
+                                    <View style={{ display: 'flex', flexDirection: 'row' }}>
                                         {/* @ts-ignore */}
-                                        <Card
-                                            containerStyle={{ borderRadius: 15 }}
-                                        >
-                                            <Card.Title style={HomeStyles.cardTitle}>{card.title}</Card.Title>
-                                            <Text style={HomeStyles.cardText}>{card.date}</Text>
-                                            <Card.Divider />
-                                            <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                                {/* @ts-ignore */}
-                                                {/* <Card.Image
-                                            style={{ padding: 70, borderRadius: 15, marginRight: 20, height: 30 }}
-                                            source={{ uri: card.image }}
-                                        /> */}
-                                                {/* @ts-ignore */}
-                                                <Text style={{ marginBottom: 0, flex: '1 auto', fontSize: 14, fontWeight: '300' }}>
-                                                    {card.description}
-                                                </Text>
-                                            </View>
-                                        </Card>
+                                        <Card.Image
+                                            style={{ padding: 50, borderRadius: 15, marginRight: 10, height: 30 }}
+                                            source={{ uri: CardsItems[index] }} />
+                                        <Text style={{ marginBottom: 0, flex: 1, fontSize: 14, fontWeight: '300' }}>
+                                            {card.description}
+                                        </Text>
                                     </View>
-                                ))
-                            }
-                        </ScrollView>
+                                </Card>
+                            </View>
+                        ))
                     )
                 }
-            </View>
 
-            {newList.length && shedules.length && !showNews ? !showStations ? <CheckboxShedule
+            </ScrollView>
+
+            {newList.length && shedules.length && !showNews ? !showStations ? !showSCableWay ? <CheckboxShedule
                 isSelected={isSelected}
                 titleShow={`Ver Horarios`}
                 titleHide={`Ocultar Horarios`}
                 setSelection={setSelection}
-            /> : null : null}
+            /> : null : null : null}
             {
                 isSelected &&
                 <View style={HomeStyles.containerCenter}>
@@ -121,15 +120,28 @@ const HomeScreen = () => {
                 </View>
             }
 
-            {newList.length && shedules.length && !showNews ? !isSelected ? <CheckboxShedule
+            {newList.length && shedules.length && !showNews ? !isSelected ? !showSCableWay ? <CheckboxShedule
                 isSelected={showStations}
-                titleShow={`Ver Estaciones`}
+                titleShow={`Ver Estaciones (Metro)`}
                 titleHide={`Ocultar Estaciones`}
                 setSelection={SetshowStations}
-            /> : null : null}
+            /> : null : null : null}
             {showStations && (
                 <View>
                     <Text>CENTRO DE LOS HEROES</Text>
+                </View>
+            )}
+
+
+            {newList.length && shedules.length && !showNews ? !isSelected ? !showStations ? <CheckboxShedule
+                isSelected={showSCableWay}
+                titleShow={`Ver Estaciones (Teleferico)`}
+                titleHide={`Ocultar Estaciones`}
+                setSelection={SetshowSCableWay}
+            /> : null : null : null}
+            {showSCableWay && (
+                <View>
+                    <Text>Teleferico</Text>
                 </View>
             )}
         </View >
