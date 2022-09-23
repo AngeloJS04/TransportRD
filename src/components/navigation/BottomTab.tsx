@@ -76,19 +76,19 @@ export function BottomTabs() {
             {IsSignedIn ?
                 <>
                     <Tab.Screen name="Maps" component={MapsScreen} options={{ title: 'Metros / Omsas', headerShown: false }} />
+                    <Tab.Screen name="Card" component={CardScreen} options={{ title: 'Mis tarjetas ', headerShown: false }} />
 
                     <Tab.Screen name="Home" component={HomeScreen} options={{
-                        title: 'Noticias', headerStyle: { backgroundColor: '#008349' },
+                        title: 'Informacion', tabBarBadge: 7, headerStyle: { backgroundColor: '#008349' },
                         headerTitleStyle: { color: '#fff', fontSize: 20, fontWeight: '500' },
                     }} />
 
-                    <Tab.Screen name="Card" component={CardScreen} options={{ title: 'Mis tarjetas ', headerShown: false }} />
 
-                    <Tab.Screen name="Estaciones" component={StationsScreen} options={{
-                        tabBarBadge: 12, title: 'Estaciones', headerStyle: {
+                    {/* <Tab.Screen name="Estaciones" component={StationsScreen} options={{
+                        title: 'Estaciones', headerStyle: {
                             backgroundColor: '#008349'
                         }, headerTitleStyle: { color: '#fff', fontSize: 20, fontWeight: '500' }
-                    }} />
+                    }} /> */}
 
                 </>
                 :
