@@ -74,11 +74,26 @@ export const HomeStyles = StyleSheet.create({
         // gap: 10
     },
     checkContainer: {
-        paddingVertical: 14,
+
         borderRadius: 15, shadowColor: '#ccc', shadowOpacity: 0.1, shadowOffset: {
             width: 10,
             height: 2
         },
         shadowRadius: 8
+    },
+    card: {
+        backgroundColor: '#fff',
+        borderRadius: 15,
+        padding: 16,
+        elevation: 3,
+        shadowColor: "black",
+        shadowOffset: {
+            width: 0,
+            height: 3
+        },
+        shadowOpacity: 0.24,
+        shadowRadius: 4,
+        // borderRadius: 8
+
     }
 })

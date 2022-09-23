@@ -15,8 +15,8 @@ const CheckboxShedule = ({ isSelected, setSelection, titleShow, titleHide }: Che
         <View >
 
             <CheckBox
-                center
-                containerStyle={HomeStyles.checkContainer}
+                // center
+                containerStyle={[HomeStyles.checkContainer, { paddingVertical: isSelected ? 10 : 20 }]}
                 title={`${isSelected ? titleHide : titleShow}`}
                 checkedIcon={<Icon
                     type='ionicon'
@@ -33,6 +33,7 @@ const CheckboxShedule = ({ isSelected, setSelection, titleShow, titleHide }: Che
                     tvParallaxProperties={undefined}
                 />}
                 checked={isSelected}
+
                 onPress={() => { setSelection(!isSelected) }}
             />
         </View>
