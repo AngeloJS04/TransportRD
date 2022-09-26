@@ -95,5 +95,15 @@ export const HomeStyles = StyleSheet.create({
         shadowRadius: 4,
         // borderRadius: 8
 
+    },
+    buttonsLine: {
+        padding: 10, borderRadius: 20, height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginVertical: 8,
+        borderColor: '#fff',
+        borderWidth: 1,
+        width: 350
     }
 })
