@@ -2,20 +2,16 @@ import React from 'react'
 import { View } from 'react-native'
 import { CheckBox, Icon } from 'react-native-elements'
 import { HomeStyles } from '../../../theme/home.style'
-
 interface CheckPropsI {
     isSelected: boolean
     setSelection: Function
     titleShow: string
     titleHide: string
 }
-
 const CheckboxShedule = ({ isSelected, setSelection, titleShow, titleHide }: CheckPropsI) => {
     return (
         <View >
-
             <CheckBox
-                // center
                 containerStyle={[HomeStyles.checkContainer, { paddingVertical: isSelected ? 10 : 20 }]}
                 title={`${isSelected ? titleHide : titleShow}`}
                 checkedIcon={<Icon
@@ -33,7 +29,6 @@ const CheckboxShedule = ({ isSelected, setSelection, titleShow, titleHide }: Che
                     tvParallaxProperties={undefined}
                 />}
                 checked={isSelected}
-
                 onPress={() => { setSelection(!isSelected) }}
             />
         </View>

@@ -1,23 +1,23 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput, StyleSheet, Animated } from 'react-native'
+import { Animated, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Icon } from 'react-native-elements'
 import ModalHome from '../../app/modal/modal'
 import Card from './creditcard/card'
 import Input from './creditcard/Input'
 import { getBrand } from './creditcard/Input/brand'
-import { Icon } from 'react-native-elements';
 // import CreditCard from 'react-native-credit-card';
 
 // import IconUser from '../../../../assets/img/icon-user.svg'
 // import IconCode from '../../../../assets/img/icon-code.svg'
 // import IconDate from '../../../../assets/img/icon-date.svg'
 // import IconNumber from '../../../../assets/img/icon-number.svg'
-import { ScrollView, Container, Header, Title, Subtitle, Content, Button, TextButton } from './styles'
+import { doc, updateDoc } from 'firebase/firestore'
 import { useDispatch, useSelector } from 'react-redux'
+import { db } from '../../../../fb'
+import { editCards } from '../../../redux/slices/cards/cards'
 import { RootState } from '../../../redux/store/store'
 import { CardsI } from '../../../redux/types/card.type'
-import { editCards, setCards } from '../../../redux/slices/cards/cards'
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
-import { db } from '../../../../fb'
+import { Button, Content, Header, ScrollView, Subtitle, TextButton, Title } from './styles'
 const IconUser = '../../../../assets/img/icon-user.svg'
 
 interface RechargeI {
