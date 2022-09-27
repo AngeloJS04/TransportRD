@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
+import * as React from 'react';
 import { Icon } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSignIn } from '../../redux/slices/Signed/Signed';
