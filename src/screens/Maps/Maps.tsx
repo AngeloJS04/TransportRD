@@ -1,26 +1,40 @@
-import React, { useEffect, useState } from "react";
-import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from "react-native-maps";
-import {
-    StyleSheet,
-    Text,
-    View,
-    Dimensions,
-    TouchableOpacity,
-} from "react-native";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { GOOGLE_MAPS_KEY } from '@env';
+import * as React from 'react';
+import { Dimensions, PermissionsAndroid, Platform, StyleSheet, View, Animated } from "react-native";
+import MapView, { Marker, Polyline, PROVIDER_GOOGLE, } from "react-native-maps";
+import MapViewDirections from "react-native-maps-directions";
 import WelcomeModal from "../../components/app/welcomeModal";
+import Geolocation from 'react-native-geolocation-service'
+import { locationPermission } from '../../helpers/locationPermission';
+
+const trainImg = require('../../../assets/img/train.png')
+
 
 export default function MapsScreen() {
-    const [active, setActive] = useState(true)
-    const [dark, setDark] = useState(false);
-    const [origin, setOrigin] = useState({ latitude: 18.450349, longitude: -69.927622 })
+    const [active, setActive] = React.useState(true)
+    const [dark, setDark] = React.useState(false);
+    const [origin, setOrigin] = React.useState({ latitude: 18.451016257156976, longitude: -69.92772342401096 })
+    const [destination, setDestination] = React.useState({ latitude: 18.455598753725006, longitude: -69.92401784582424 })
 
-    const destination = { latitude: 18.455442, longitude: -69.923650 }
 
+    const mapRef = React.createRef();
+
+
+    // const getCurrentLocation = async () => {
+    //     const locPermissionDenied = await locationPermission()
+    //     console.log("LCOATION PERMISSION", locPermissionDenied)
+    // }
     return (
-        <View style={styles.container}>
+        <View style={styles.container} >
             {active && (<WelcomeModal active={active} setActive={setActive} />)}
             <MapView
+                // userLocationPriority={'balanced'}
+                // mapType={'mutedStandard'}
+                followsUserLocation={true}
+                showsMyLocationButton={true}
+                showsCompass={true}
+                // showsTraffic={true}
+                // toolbarEnabled={true}
                 style={styles.map}
                 provider={PROVIDER_GOOGLE}
                 showsUserLocation={true}
@@ -33,35 +47,34 @@ export default function MapsScreen() {
             // customMapStyle={dark ? mapStyle : null}
             >
                 <Marker
-                    draggable
-                    onDragEnd={(direction) => setOrigin(direction.nativeEvent.coordinate)}
+                    // draggable
                     coordinate={origin}
-                />
-                <Polyline
+                    image={trainImg}
 
-                    coordinates={[origin, destination]}
-                    strokeColor="red"
-                    strokeWidth={3}
                 />
-                {/* <Marker coordinate={destination}/> */}
-                {/* <TouchableOpacity
-                    onPress={() => setDark(!dark)}
-                    style={{
-                        backgroundColor: "#FFF",
-                        height: 30,
-                        borderRadius: 15,
-                        width: 30,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        position: "absolute",
-                        marginTop: 80,
-                        alignSelf: "flex-end",
-                        right: 20,
-                    }}
-                >
-                    <FontAwesome name="adjust" size={30} />
-                </TouchableOpacity> */}
+                <Marker
+
+                    draggable
+                    coordinate={destination}
+                    onDragEnd={(direction) => setDestination(direction.nativeEvent.coordinate)}
+
+
+                />
+                <MapViewDirections
+                    origin={origin}
+                    destination={destination}
+                    apikey={GOOGLE_MAPS_KEY}
+                    strokeColor="black"
+                    strokeWidth={6}
+                />
+
+                <Polyline
+                    coordinates={[origin, destination]}
+                    strokeColor={'blue'}
+                    strokeWidth={4}
+                />
             </MapView>
+
         </View>
     );
 }
@@ -76,6 +89,8 @@ const styles = StyleSheet.create({
     map: {
         width: Dimensions.get("window").width,
         height: Dimensions.get("window").height,
+        marginBottom: 90
+
     },
 });
 
