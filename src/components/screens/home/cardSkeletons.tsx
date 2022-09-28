@@ -12,7 +12,7 @@ const CardSkeletons = ({ i }: any) => {
 
                 <Skeleton height={(skeWidth / 16) * 2} width={skeWidth} style={{ borderRadius: 1, marginTop: 4 }} />
                 <Skeleton height={10} width={70} style={{ borderRadius: 10, marginTop: 4 }} />
-                <Skeleton height={(skeWidth / (i === 3 ? 50 : 20)) * 5} width={skeWidth} style={{ borderRadius: 1, marginTop: 4 }} />
+                <Skeleton height={(skeWidth / (i === 3 ? 60 : 20)) * 5} width={skeWidth} style={{ borderRadius: 1, marginTop: 4 }} />
 
             </View>
         </View>
