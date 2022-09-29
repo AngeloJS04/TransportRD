@@ -8,7 +8,6 @@ import CardScreen from '../../screens/Cards/Card';
 import HomeScreen from '../../screens/Home/HomeScreen';
 import { LoginScreen } from '../../screens/Login/LoginScreen';
 import MapsScreen from '../../screens/Maps/Maps';
-import StationsScreen from '../../screens/Stations/StationsScreen';
 
 const Tab = createBottomTabNavigator();
 
