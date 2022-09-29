@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Button, Dimensions, Pressable, Text, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 import { Card } from 'react-native-elements'
 import { ScrollView } from '../../components/screens/card/styles'
 import CardSkeletons from '../../components/screens/home/cardSkeletons'

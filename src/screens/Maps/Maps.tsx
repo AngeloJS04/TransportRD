@@ -1,6 +1,6 @@
-import { GOOGLE_MAPS_KEY } from '@env';
+// import { GOOGLE_MAPS_KEY } from '@env';
 import * as React from 'react';
-import { Dimensions, StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import MapView, { Marker, Polygon, PROVIDER_GOOGLE } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import WelcomeModal from "../../components/app/welcomeModal";
@@ -8,6 +8,7 @@ import { OriginI } from '../../interface/maps/maps.interface';
 import { polygon } from '../../settings/PolygonCoordinates';
 import { MapsStyle } from '../../theme/Maps.style';
 import { styles } from '../Cards/Card';
+import Constants from "expo-constants";
 
 const trainImg = require('../../../assets/img/train.png')
 
@@ -16,6 +17,8 @@ export default function MapsScreen() {
     const [arraycoordinates, setArraycoordinates] = React.useState<OriginI[]>([])
     const [origin, setOrigin] = React.useState<OriginI>({ latitude: 18.451016257156976, longitude: -69.92772342401096 })
     const [destination, setDestination] = React.useState({ latitude: 18.455598753725006, longitude: -69.92401784582424 })
+
+    const GOOGLE_MAPS_KEY = Constants!.manifest!.extra!.googleApiKey;
 
     let timer = setInterval(() => { });
 
@@ -32,7 +35,7 @@ export default function MapsScreen() {
         timer = setInterval(() => {
             markCoord(number);
             number++;
-        }, 7000);
+        }, 5000);
     }, [arraycoordinates.length])
 
     return (
@@ -40,11 +43,11 @@ export default function MapsScreen() {
             {active && (<WelcomeModal active={active} setActive={setActive} />)}
 
             <MapView
-                followsUserLocation={true}
                 // showsMyLocationButton={true}
-                showsCompass={true}
                 // mapType={'mutedStandard'}
                 // showsTraffic={true}
+                followsUserLocation={true}
+                showsCompass={true}
                 style={MapsStyle.map}
                 provider={PROVIDER_GOOGLE}
                 showsUserLocation={true}
@@ -86,6 +89,7 @@ export default function MapsScreen() {
                     strokeWidth={3}
                     onReady={(ready) => { { setArraycoordinates(ready.coordinates) } }}
                 />
+                {/* <Polyline /> */}
             </MapView>
         </View>
     );

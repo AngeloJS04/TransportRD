@@ -1,17 +1,16 @@
-import { BlurView } from 'expo-blur';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import React, { useRef } from 'react';
-import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { BlurView } from 'expo-blur';
 import { initializeApp } from 'firebase/app';
-import { useState } from 'react';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useRef, useState } from 'react';
+import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { firebaseConfig } from '../../../fb';
 import { useForm } from '../../hooks/useForm';
 import { identificationU } from '../../interface/Login.interface';
 import { setMe } from '../../redux/slices/me/me';
-import { LoginStyle } from '../../theme/Login.style';
 import { setSignIn } from '../../redux/slices/Signed/Signed';
+import { LoginStyle } from '../../theme/Login.style';
 
 const Stack = createNativeStackNavigator()
 
@@ -21,8 +20,6 @@ const metro = 'https://upload.wikimedia.org/wikipedia/commons/b/ba/Logo_Metro_de
 const omsa = 'http://www.estrellasorientales.com.do/wp-content/uploads/2018/10/logo-omsa.jpg';
 const cableWay = 'https://www.telefericosantodomingo.com/images/teleferico-santo-domingo-icon.png';
 const bandera = 'https://images.visitarepublicadominicana.org/bandera-de-republica-dominicana.jpg';
-
-
 
 const initialState = {
     Nombres: '',

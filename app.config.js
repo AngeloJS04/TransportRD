@@ -37,7 +37,8 @@ export default {
       projectId: process.env.PROJECT_ID,
       storageBucket: process.env.STORAGE_BUCKET,
       messagingSenderId: process.env.MESSAGIN_SENDER_ID,
-      appId: process.env.APP_ID
+      appId: process.env.APP_ID,
+      googleApiKey: process.env.GOOGLE_MAPS_KEY
 
     }
   }
