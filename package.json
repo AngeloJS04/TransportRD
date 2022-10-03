@@ -32,7 +32,6 @@
     "react-native-element-dropdown": "^2.3.0",
     "react-native-elements": "^3.4.2",
     "react-native-flash-message": "^0.3.1",
-    "react-native-geolocation-service": "^5.3.1",
     "react-native-maps": "0.31.1",
     "react-native-maps-directions": "^1.9.0",
     "react-native-masked-text": "^1.13.0",
