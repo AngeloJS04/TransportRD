@@ -11,6 +11,7 @@ import { styles } from '../Cards/Card';
 import Constants from "expo-constants";
 
 const trainImg = require('../../../assets/img/train.png')
+const busImg = require('../../../assets/img/bus.png')
 
 export default function MapsScreen() {
     const [active, setActive] = React.useState(true)
@@ -18,9 +19,14 @@ export default function MapsScreen() {
     const [origin, setOrigin] = React.useState<OriginI>({ latitude: 18.451016257156976, longitude: -69.92772342401096 })
     const [destination, setDestination] = React.useState({ latitude: 18.455598753725006, longitude: -69.92401784582424 })
 
+
+    const [originBus, setOriginBus] = React.useState({ latitude: 18.463323736915253, longitude: -69.93662083315864 })
+    const [destinationBus, setDestinationBus] = React.useState({ latitude: 18.44992704986648, longitude: -69.92696189738098 })
+    const [arraycoordinatesBus, setArraycoordinatesbus] = React.useState<OriginI[]>([])
     const GOOGLE_MAPS_KEY = Constants!.manifest!.extra!.googleApiKey;
 
     let timer = setInterval(() => { });
+
 
     const markCoord = (number: number) => {
         if (!arraycoordinates[number]) return clearInterval(timer);
@@ -30,12 +36,21 @@ export default function MapsScreen() {
         })
     }
 
+    const markCoordBus = (number: number) => {
+        if (!arraycoordinatesBus[number]) return clearInterval(timer);
+        setOriginBus({
+            latitude: arraycoordinatesBus[number].latitude,
+            longitude: arraycoordinatesBus[number].longitude
+        })
+    }
+
     React.useEffect(() => {
         let number = 0;
         timer = setInterval(() => {
             markCoord(number);
+            markCoordBus(number)
             number++;
-        }, 5000);
+        }, 4000);
     }, [arraycoordinates.length])
 
     return (
@@ -60,6 +75,8 @@ export default function MapsScreen() {
             >
                 <Polygon strokeWidth={1} strokeColor={'blue'} coordinates={polygon} />
                 <Marker coordinate={origin} image={trainImg} />
+
+                <Marker coordinate={{ latitude: 18.450943469082986, longitude: -69.92767343647543 }} image={trainImg} />
 
                 {/* Station Two */}
                 <Marker
@@ -90,6 +107,18 @@ export default function MapsScreen() {
                     onReady={(ready) => { { setArraycoordinates(ready.coordinates) } }}
                 />
                 {/* <Polyline /> */}
+
+                {/* Omsa */}
+                <Marker coordinate={originBus} image={busImg} onDragEnd={(direction) => setDestination(direction.nativeEvent.coordinate)} />
+
+                <MapViewDirections
+                    origin={originBus}
+                    destination={destinationBus}
+                    apikey={GOOGLE_MAPS_KEY}
+                    strokeColor="#000"
+                    strokeWidth={3}
+                    onReady={(ready) => { { setArraycoordinatesbus(ready.coordinates) } }}
+                />
             </MapView>
         </View>
     );

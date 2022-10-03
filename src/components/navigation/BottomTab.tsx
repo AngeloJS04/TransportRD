@@ -93,7 +93,7 @@ export function BottomTabs() {
                 :
                 <>
                     <Tab.Screen name="Login" component={LoginScreen} options={{
-                        title: 'Transport App', headerStyle: {
+                        title: 'Metro SD - APP', headerStyle: {
                             backgroundColor: '#008349'
                         }, headerTitleStyle: { color: '#fff', fontSize: 20, fontWeight: '500' }
                     }} />

@@ -42,7 +42,6 @@ export function LoginScreen() {
     const [identification, setIdentification] = useState<identificationU>(initialState)
 
     const { email, password, onChange } = useForm({ email: "", password: "", Nombres: "", Apellidos1: '', Apellidos2: '' });
-    const dataUser = [identification]
 
     const onQueryChanged = (id: string) => {
         if (debounceRef.current) {
@@ -58,7 +57,6 @@ export function LoginScreen() {
                 if (!data.ok) return
                 // dispatch(setMe({ me: { email: data.email, uid: data.uid }, haveData: true }))
                 setIdentification(data)
-
             });
     }
 
@@ -69,35 +67,46 @@ export function LoginScreen() {
             .then((userCredential) => {
                 console.log('Account Created')
                 const user = userCredential.user;
+                console.log(user)
             })
-            .catch(err => { console.log(err) })
-
+            .catch(err => {
+                let errorCode = err.code;
+                console.log(err)
+                if (errorCode == 'auth/invalid-email' || 'auth/internal-error') {
+                    Alert.alert('Email no valido')
+                    return;
+                }
+            })
         SetIsCreate(false)
         setIdentification(initialState)
 
     }
 
     const handleSignIn = async () => {
+        if (email === '' || password === '') {
+            Alert.alert('Por favor completes los campos requeridos')
+            return;
+        }
         await signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                console.log('sign in')
                 const user = userCredential.user;
-
-                // console.log(user)
                 dispatch(setSignIn(true))
                 dispatch(setMe({ me: { email: user.email, uid: user.uid } }))
+                console.log('sign in')
             })
             .catch((err) => {
-                console.log(err)
-                Alert.alert(err)
+                let errorCode = err.code;
+                if (errorCode == 'auth/user-not-found' || 'auth/wrong-password') {
+                    Alert.alert('Credenciales invalidas')
+                    return;
+                }
+                console.log(err.code)
             })
     }
-
 
     const goBack = () => {
         SetIsCreate(false)
         setIdentification(initialState)
-
     }
 
     return (
