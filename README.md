@@ -11,6 +11,6 @@ https://github.com/AngeloJS04/TransportRD.git
 cd TransportRD
 yarn
 ```
-agregue las dependencias `.env`
+agregue las dependencias en la raiz del proyecto`.env`
 
 luego ejecute `yarn start`
