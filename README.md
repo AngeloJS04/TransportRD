@@ -2,10 +2,10 @@
 
 This application was built with:
 
-React Native
-TypeScript
-Redux Toolkit
-Fireabase
+`React Native`
+`TypeScript`
+`Redux Toolkit`
+`Fireabase`
 
 Nota: Se requiere Node v6+ para este proyecto.
 
