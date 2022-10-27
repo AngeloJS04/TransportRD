@@ -6,6 +6,9 @@ This application was built with:
 `TypeScript`
 `Redux Toolkit`
 `Fireabase`
+![image](https://user-images.githubusercontent.com/52179030/198333192-fdbbc88a-5e7d-4908-b784-412b18801ddd.png)
+![image](https://user-images.githubusercontent.com/52179030/198333263-548ced34-26c3-4a9b-9785-7d0673d35460.png)
+![image](https://user-images.githubusercontent.com/52179030/198333298-73c2b79e-3ab3-476f-b57f-c31cc31458cc.png)
 
 Nota: Se requiere Node v6+ para este proyecto.
 
