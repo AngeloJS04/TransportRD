@@ -1,5 +1,12 @@
 # TransportRD
 
+This application was built with:
+
+React Native
+TypeScript
+Redux Toolkit
+Fireabase
+
 Nota: Se requiere Node v6+ para este proyecto.
 
 Recomendamos usar yarn para administrar las dependencias. Para comenzar a usar yarn, instálelo globalmente con `npm install -g yarn`.
