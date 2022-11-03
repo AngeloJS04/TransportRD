@@ -81,6 +81,7 @@ export function LoginScreen() {
         setIdentification(initialState)
 
     }
+    
 
     const handleSignIn = async () => {
         if (email === '' || password === '') {

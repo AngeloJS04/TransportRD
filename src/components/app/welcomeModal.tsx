@@ -10,7 +10,7 @@ const WelcomeModal = ({ active, setActive }: { active: boolean, setActive: Funct
                 <Text style={styles.textOne}>¡Bienvenido!</Text>
 
                 <Text style={styles.textSecondary}>
-                    ¡Hola, te damos la bienvenida a Trasnport App, la aplicacion donde podras recargan tus tarjetas del metro,
+                    ¡Hola, te damos la bienvenida a Smart Ride RD, la aplicacion donde podras recargan tus tarjetas del metro,
                     enviar saldo y ver cuando vendra tu proximo transporte.
                 </Text>
 

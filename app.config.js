@@ -6,6 +6,7 @@ export default {
     "slug": "transport-app",
     "version": "1.0.0",
     "orientation": "portrait",
+    
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
